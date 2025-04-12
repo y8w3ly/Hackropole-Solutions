@@ -1,0 +1,5 @@
+services:
+  le-hash-qui-rit:
+    image: anssi/fcsc2023-crypto-le-hash-qui-rit:latest
+    ports:
+      - "4000:4000"

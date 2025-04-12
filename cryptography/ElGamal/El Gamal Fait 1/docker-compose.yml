@@ -1,0 +1,5 @@
+services:
+  el-gamal-fait-1:
+    image: anssi/fcsc2024-crypto-el-gamal-fait-1:latest
+    ports:
+      - "4000:4000"
