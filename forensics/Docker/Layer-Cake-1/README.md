@@ -1,7 +1,7 @@
-#Description 
+#Description#
 A GoodCorp developer wants to publish a new Docker image. He uses an environment variable storing a flag at build time, and assures you that this secret is not visible to the public. The image is [anssi/fcsc2024-forensics-layer-cake-1](https://hub.docker.com/r/anssi/fcsc2024-forensics-layer-cake-1).
 
-#Solution
+#Solution#
 The description says that the image owner uses an environment variable so it must be declared while building.
 but when we run `docker pull anssi/fcsc2024-forensics-layer-cake-1:latest` we got no files downloaded but this does not mean the image is empty.
 So i tried to run it with an interactive shell : `docker run -it anssi/fcsc2024-forensics-layer-cake-1:latest` tried something like finding such file named flag.txt but I found nothing.
