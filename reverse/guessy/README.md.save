@@ -1,0 +1,70 @@
+# *Guessy*
+
+## *Description*
+Il va probablement vous falloir beaucoup de chance pour deviner le flag. Ou quelques compétences en rétro-ingénierie.
+
+## *Solution*
+First we try the basic things : 
+```
+y8w3ly@notarch:~/ctfs/Hackropole/reverse/guessy$ file guessy 
+guessy: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, not stripped
+```
+Its a 64 bit elf, dynamically so the source won't be fuzzy, and it is not stripped, so we have the debugging symbols.
+
+After seeing the strings we can know what the challenge looks like : 
+```
+Can you guess the LAST character of the flag ?
+Really ? I ask you for a single character and you give me this ?
+Oh no, you were so close !
+Congratulations, you've guessed the flag !
+Now you can try to guess the next eight characters of the flag.
+Well it seems that someone has trouble counting to eight.
+Wrong guess.
+Well done, you can try to guess the next eight characters but it won't be so easy.
+I see you've got some skills in reversing, but can you guess the next eight ?
+I must say that I'm impressed but it's not over. Will you be able to guess the next eight characters ?
+Wrong guess
+Alright, now let's go to the most difficult part of this challenge.
+Well it does not begin well for you.
+Come on, it's not that difficult !
+Ok so I see we have an understanding. Let's begin the difficult part now.
+Give me the flag:
+```
+
+After opening the binary in ghidra we see the main function :
+```
+undefined8 main(void)
+
+{
+  char local_28 [32];
+  
+  puts("Give me the flag:");
+  fgets(local_28,0x20,stdin);
+  validate(local_28);
+  return 0;
+}
+```
+
+So as expected, the program asks for an input which should be the flag(basic crackme), and it checks it with the function validate:
+```
+int validate(char *param_1)
+
+{
+  int iVar1;
+  
+  if ((((*param_1 == 'F') && (param_1[1] == 'C')) && (param_1[2] == 'S')) && (param_1[3] == 'C')) {
+    if (param_1[4] == '{') {
+      puts("Ok so I see we have an understanding. Let\'s begin the difficult part now.");
+      difficult_part();
+      iVar1 = 0;
+    }
+    else {
+      iVar1 = puts("Come on, it\'s not that difficult !");
+    }
+  }
+  else {
+    iVar1 = puts("Well it does not begin well for you.");
+  }
+  return iVar1;
+}
+```
