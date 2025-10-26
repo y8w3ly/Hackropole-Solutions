@@ -1,0 +1,5 @@
+services:
+  bugs-buggy-easy:
+    image: anssi/fcsc2020-crypto-bugs-buggy-easy:latest
+    ports:
+      - "4000:4000"
